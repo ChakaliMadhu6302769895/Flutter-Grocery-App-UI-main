@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/common_widgets/app_button.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/models/grocery_item.dart';
+import 'package:grocery_app/screens/cart/cart_screen.dart';
 import 'package:grocery_app/widgets/item_counter_widget.dart';
-
 import 'favourite_toggle_icon_widget.dart';
 
 class ProductDetailsScreen extends StatefulWidget {

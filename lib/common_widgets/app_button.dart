@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/screens/cart/cart_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
+
 
 class AppButton extends StatelessWidget {
   final String label;
@@ -54,6 +54,7 @@ class AppButton extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: fontWeight,
+                  color: Colors.white
                 ),
               ),
             ),
