@@ -88,7 +88,7 @@ class CategoryItemsScreen extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => ProductDetailsScreen(
           groceryItem,
-          heroSuffix: "explore_screen",
+          heroSuffix: "explore_screen", cartItems: [],
         ),
       ),
     );

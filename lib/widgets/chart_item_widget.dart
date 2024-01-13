@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/models/grocery_item.dart';
-import 'package:grocery_app/styles/colors.dart';
-
 import 'item_counter_widget.dart';
 
 class ChartItemWidget extends StatefulWidget {
-  ChartItemWidget({Key? key, required this.item}) : super(key: key);
   final GroceryItem item;
+  final VoidCallback onRemove;
+
+  ChartItemWidget({Key? key, required this.item, required this.onRemove})
+      : super(key: key);
 
   @override
   _ChartItemWidgetState createState() => _ChartItemWidgetState();
@@ -15,11 +16,7 @@ class ChartItemWidget extends StatefulWidget {
 
 class _ChartItemWidgetState extends State<ChartItemWidget> {
   final double height = 110;
-
-  final Color borderColor = Color(0xffE2E2E2);
-
   final double borderRadius = 18;
-
   int amount = 1;
 
   @override
@@ -47,10 +44,12 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
                   height: 5,
                 ),
                 AppText(
-                    text: widget.item.description,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.darkGrey),
+                  text: widget.item.description,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  // Replace with your actual color
+                  color: Colors.black,
+                ),
                 SizedBox(
                   height: 12,
                 ),
@@ -66,10 +65,9 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
             ),
             Column(
               children: [
-                Icon(
-                  Icons.close,
-                  color: AppColors.darkGrey,
-                  size: 25,
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: widget.onRemove,
                 ),
                 Spacer(
                   flex: 5,

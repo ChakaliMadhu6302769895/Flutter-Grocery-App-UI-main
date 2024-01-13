@@ -10,7 +10,11 @@ class ProductDetailsScreen extends StatefulWidget {
   final GroceryItem groceryItem;
   final String? heroSuffix;
 
-  const ProductDetailsScreen(this.groceryItem, {this.heroSuffix});
+  final List<GroceryItem> cartItems;
+
+  const ProductDetailsScreen(
+      this.groceryItem,
+      {this.heroSuffix, required this.cartItems});
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
@@ -77,13 +81,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Spacer(),
                     AppButton(
                       label: "Add To Cart",
-                      onPressed: (){
+                      onPressed: () {
+                        widget.groceryItem.quantity = amount; // Set the selected quantity
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => CartScreen()),
+                          MaterialPageRoute(
+                            builder: (context) => CartScreen(cartItems: [widget.groceryItem]),
+                          ),
                         );
                       },
                     ),
+
                     Spacer(),
                   ],
                 ),

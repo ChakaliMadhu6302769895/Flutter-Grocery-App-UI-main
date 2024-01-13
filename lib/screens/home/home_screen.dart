@@ -135,7 +135,7 @@ class HomeScreen extends StatelessWidget {
       MaterialPageRoute(
           builder: (context) => ProductDetailsScreen(
                 groceryItem,
-                heroSuffix: "home_screen",
+                heroSuffix: "home_screen", cartItems: [],
               )),
     );
   }

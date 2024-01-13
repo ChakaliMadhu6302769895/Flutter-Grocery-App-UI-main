@@ -52,9 +52,9 @@ class AppButton extends StatelessWidget {
                 label,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: fontWeight,
-                  color: Colors.white
+                    fontSize: 18,
+                    fontWeight: fontWeight,
+                    color: Colors.white
                 ),
               ),
             ),
