@@ -76,7 +76,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                     Spacer(),
                     AppButton(
-                      label: "Add To Basket",
+                      label: "Add To Cart",
+                      onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => CartScreen()),
+                        );
+                      },
                     ),
                     Spacer(),
                   ],

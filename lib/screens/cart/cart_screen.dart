@@ -82,7 +82,7 @@ class CartScreen extends StatelessWidget {
       ),
       child: Text(
         "\Rs 12.96",
-        style: TextStyle(fontWeight: FontWeight.w600),
+        style: TextStyle(fontWeight: FontWeight.w600 ,color: Colors.white),
       ),
     );
   }
