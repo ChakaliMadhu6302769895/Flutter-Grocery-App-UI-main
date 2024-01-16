@@ -83,15 +83,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       label: "Add To Cart",
                       onPressed: () {
                         widget.groceryItem.quantity = amount; // Set the selected quantity
+                        widget.cartItems.add(widget.groceryItem); // Add updated item to cart
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CartScreen(cartItems: [widget.groceryItem]),
+                            builder: (context) => CartScreen(cartItems: widget.cartItems),
                           ),
                         );
                       },
                     ),
-
                     Spacer(),
                   ],
                 ),

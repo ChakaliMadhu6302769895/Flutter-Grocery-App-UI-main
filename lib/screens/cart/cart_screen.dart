@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/models/grocery_item.dart';
-
 import '../../widgets/chart_item_widget.dart';
 import 'checkout_bottom_sheet.dart';
 
@@ -14,6 +13,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,11 +27,12 @@ class _CartScreenState extends State<CartScreen> {
             child: ListView.builder(
               itemCount: widget.cartItems.length,
               itemBuilder: (context, index) {
+                final cartItem = widget.cartItems[index]; // Define cartItem here
                 return ChartItemWidget(
-                  item: widget.cartItems[index],
+                  item: cartItem,
                   onRemove: () {
                     setState(() {
-                      widget.cartItems.removeAt(index);
+                      widget.cartItems.remove(cartItem);
                     });
                   },
                 );
