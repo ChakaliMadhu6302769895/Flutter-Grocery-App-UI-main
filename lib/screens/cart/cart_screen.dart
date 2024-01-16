@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/models/grocery_item.dart';
 
 import '../../widgets/chart_item_widget.dart';
+import 'checkout_bottom_sheet.dart';
 
 class CartScreen extends StatefulWidget {
   final List<GroceryItem> cartItems;
@@ -49,9 +50,8 @@ class _CartScreenState extends State<CartScreen> {
       padding: EdgeInsets.all(16),
       child: ElevatedButton(
         onPressed: () {
-          // Implement checkout logic here
-          // You may want to navigate to the checkout screen or perform other actions.
-        },
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckoutBottomSheet()));
+          },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
