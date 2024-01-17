@@ -40,7 +40,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
             ],
           ),
           SizedBox(
-            height: 45,
+            height: 35,
           ),
           getDivider(),
           checkoutRow("Delivery", trailingText: "Select Method"),
@@ -57,16 +57,16 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
           checkoutRow("Total Cost", trailingText: "\Rs 13.97"),
           getDivider(),
           SizedBox(
-            height: 30,
+            height: 15,
           ),
           termsAndConditionsAgreement(context),
           Container(
             margin: EdgeInsets.only(
-              top: 25,
+              top: 10,
             ),
             child: AppButton(
               label: "Place Order",
-              // fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w600,
               padding: EdgeInsets.symmetric(
                 vertical: 25,
               ),

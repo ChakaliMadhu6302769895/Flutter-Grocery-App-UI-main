@@ -73,9 +73,11 @@ class _CartScreenState extends State<CartScreen> {
       padding: EdgeInsets.all(16),
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CheckoutBottomSheet()),
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return CheckoutBottomSheet(); // Replace this with your actual bottom sheet widget
+            },
           );
         },
         child: Row(
@@ -88,6 +90,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
+
 
   double calculateTotalPrice() {
     double totalPrice = 0;
