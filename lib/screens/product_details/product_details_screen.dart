@@ -10,15 +10,21 @@ class ProductDetailsScreen extends StatefulWidget {
   final GroceryItem groceryItem;
   final String? heroSuffix;
   late final List<GroceryItem> cartItems;
+  final Function(List<GroceryItem>) onItemsUpdated;
 
-  // Remove the 'const' modifier
-  ProductDetailsScreen(this.groceryItem, {this.heroSuffix, required this.cartItems});
+  ProductDetailsScreen({
+    required this.groceryItem,
+    this.heroSuffix,
+    this.cartItems = const [],
+    required this.onItemsUpdated,
+  });
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  bool isSelected = false;
   int amount = 1;
 
   @override

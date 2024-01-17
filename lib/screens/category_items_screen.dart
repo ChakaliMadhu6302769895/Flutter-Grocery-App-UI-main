@@ -3,9 +3,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/models/grocery_item.dart';
 import 'package:grocery_app/screens/product_details/product_details_screen.dart';
+import 'package:grocery_app/styles/colors.dart';
 import 'package:grocery_app/widgets/grocery_item_card_widget.dart';
-
-import 'filter_screen.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
   @override
@@ -28,23 +27,6 @@ class CategoryItemsScreen extends StatelessWidget {
             ),
           ),
         ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FilterScreen()),
-              );
-            },
-            child: Container(
-              padding: EdgeInsets.only(right: 25),
-              child: Icon(
-                Icons.sort,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ],
         title: Container(
           padding: EdgeInsets.symmetric(
             horizontal: 25,
@@ -59,7 +41,6 @@ class CategoryItemsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: StaggeredGrid.count(
           crossAxisCount: 2,
-          // I only need two card horizontally
           children: beverages.asMap().entries.map<Widget>((e) {
             GroceryItem groceryItem = e.value;
             return GestureDetector(
@@ -76,7 +57,7 @@ class CategoryItemsScreen extends StatelessWidget {
             );
           }).toList(),
           mainAxisSpacing: 3.0,
-          crossAxisSpacing: 0.0, // add some space
+          crossAxisSpacing: 0.0,
         ),
       ),
     );
@@ -87,8 +68,12 @@ class CategoryItemsScreen extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) => ProductDetailsScreen(
-          groceryItem,
-          heroSuffix: "explore_screen", cartItems: [],
+          groceryItem: groceryItem,
+          heroSuffix: "explore_screen",
+          cartItems: [],
+          onItemsUpdated: (updatedItems) {
+            // Handle the updated items as needed
+          },
         ),
       ),
     );

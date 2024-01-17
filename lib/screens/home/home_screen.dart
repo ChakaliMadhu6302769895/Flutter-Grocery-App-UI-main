@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grocery_app/models/grocery_item.dart';
 import 'package:grocery_app/screens/product_details/product_details_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grocery_app/widgets/grocery_item_card_widget.dart';
 import 'package:grocery_app/widgets/search_bar_widget.dart';
-
 import 'grocery_featured_Item_widget.dart';
 import 'home_banner_widget.dart';
 
 class HomeScreen extends StatelessWidget {
+  List<GroceryItem> selectedItems = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,10 +134,15 @@ class HomeScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => ProductDetailsScreen(
-                groceryItem,
-                heroSuffix: "home_screen", cartItems: [],
-              )),
+        builder: (context) => ProductDetailsScreen(
+          groceryItem: groceryItem,
+          heroSuffix: "home_screen",
+          cartItems: selectedItems,
+          onItemsUpdated: (updatedItems) {
+            // Handle the updated items as needed
+          },
+        ),
+      ),
     );
   }
 

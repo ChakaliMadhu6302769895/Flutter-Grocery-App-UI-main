@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/models/grocery_item.dart';
-import '../../widgets/chart_item_widget.dart';
+import 'package:grocery_app/widgets/chart_item_widget.dart';
 import 'checkout_bottom_sheet.dart';
 
 class CartScreen extends StatefulWidget {
-
   final List<GroceryItem> cartItems;
   final int? selectedQuantity;
   final Function(int)? onQuantityChanged;
   final Function(List<GroceryItem>)? onItemsUpdated;
-  var onItemRemoved; // Updated to List<GroceryItem>
+  final Function(GroceryItem)? onItemRemoved;
 
   CartScreen({
     required this.cartItems,
@@ -17,7 +16,6 @@ class CartScreen extends StatefulWidget {
     required this.onItemRemoved,
     this.onQuantityChanged,
     this.onItemsUpdated,
-    // Updated to List<GroceryItem>
   });
 
   @override
@@ -38,24 +36,29 @@ class _CartScreenState extends State<CartScreen> {
               itemCount: widget.cartItems.length,
               itemBuilder: (context, index) {
                 final cartItem = widget.cartItems[index];
-                return ChartItemWidget(
-                  item: cartItem,
-                  onRemove: () {
-                    setState(() {
-                      widget.cartItems.remove(cartItem);
-                    });
-                    if (widget.onItemsUpdated  != null) {
-                      widget.onItemsUpdated! (widget.cartItems);
-                    }
-                  },
-                  onQuantityChanged: (newQuantity) {
-                    setState(() {
-                      cartItem.quantity = newQuantity;
-                    });
-                    if (widget.onItemsUpdated != null) {
-                      widget.onItemsUpdated!(widget.cartItems);
-                    }
-                  },
+                return Column(
+                  children: [
+                    ChartItemWidget(
+                      item: cartItem,
+                      onRemove: () {
+                        setState(() {
+                          widget.cartItems.remove(cartItem);
+                        });
+                        if (widget.onItemsUpdated != null) {
+                          widget.onItemsUpdated!(widget.cartItems);
+                        }
+                      },
+                      onQuantityChanged: (newQuantity) {
+                        setState(() {
+                          cartItem.quantity = newQuantity;
+                        });
+                        if (widget.onItemsUpdated != null) {
+                          widget.onItemsUpdated!(widget.cartItems);
+                        }
+                      },
+                    ),
+                    Divider(), // Divider after each item
+                  ],
                 );
               },
             ),
@@ -90,7 +93,6 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
-
 
   double calculateTotalPrice() {
     double totalPrice = 0;
