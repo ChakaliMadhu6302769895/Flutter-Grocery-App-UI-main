@@ -6,13 +6,13 @@ import 'item_counter_widget.dart';
 class ChartItemWidget extends StatefulWidget {
   final GroceryItem item;
   final VoidCallback onRemove;
-  final void Function(dynamic newQuantity) onQuantityChanged; // Add this line
+  final void Function(dynamic newQuantity) onQuantityChanged;
 
   ChartItemWidget({
     Key? key,
     required this.item,
     required this.onRemove,
-    required this.onQuantityChanged, // Add this line
+    required this.onQuantityChanged,
   }) : super(key: key);
 
   @override
@@ -35,46 +35,51 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            imageWidget(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText(
-                  text: widget.item.name,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                AppText(
-                  text: widget.item.description,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black, // Replace with your actual color
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Spacer(),
-                ItemCounterWidget(
-                  onAmountChanged: (newAmount) {
-                    setState(() {
-                      widget.item.quantity = newAmount; // Update item quantity
-                    });
+            Container(
+              padding: EdgeInsets.only(left:15),
+              child: imageWidget(),
+            ),
+            SizedBox(width: 30),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppText(
+                    text: widget.item.name,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  AppText(
+                    text: widget.item.description,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black, // Replace with your actual color
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Spacer(),
+                  ItemCounterWidget(
+                    onAmountChanged: (newAmount) {
+                      setState(() {
+                        widget.item.quantity = newAmount;
+                      });
 
-                    widget.onQuantityChanged(newAmount); // Invoke the callback
-                  },
-                  initialAmount: widget.item.quantity, // Pass the initial quantity
-                ),
-              ],
+                      widget.onQuantityChanged(newAmount);
+                    },
+                    initialAmount: widget.item.quantity,
+                  ),
+                ],
+              ),
             ),
             Column(
               children: [
                 IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
-                    // Call onRemove with the updated item quantity
                     widget.onRemove();
                   },
                 ),
@@ -82,7 +87,7 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
                   flex: 5,
                 ),
                 Container(
-                  width: 70,
+                  width: 90,
                   child: AppText(
                     text: "\Rs ${getPrice().toStringAsFixed(2)}",
                     fontSize: 18,

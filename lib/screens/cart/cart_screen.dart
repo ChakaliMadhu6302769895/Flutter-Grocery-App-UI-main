@@ -28,6 +28,13 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("My Cart"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigate back to the home screen
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -73,21 +80,24 @@ class _CartScreenState extends State<CartScreen> {
     double totalPrice = calculateTotalPrice();
 
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(15),
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: Colors.green[400] ,fixedSize: Size(400, 50)),
         onPressed: () {
           showModalBottomSheet(
             context: context,
             builder: (BuildContext context) {
-              return CheckoutBottomSheet(); // Replace this with your actual bottom sheet widget
+              return CheckoutBottomSheet();
             },
           );
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Go To Checkout"),
-            Text("\Rs $totalPrice"),
+            Text("Go To Checkout" ,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold , color: Colors.white),
+            ),
+            Text("\Rs $totalPrice" , style: TextStyle(color: Colors.white , fontWeight: FontWeight.bold , fontSize: 18),),
           ],
         ),
       ),

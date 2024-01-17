@@ -68,7 +68,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
               label: "Place Order",
               fontWeight: FontWeight.w600,
               padding: EdgeInsets.symmetric(
-                vertical: 25,
+                vertical: 20,
               ),
               onPressed: () {
                 onPlaceOrderClicked();
