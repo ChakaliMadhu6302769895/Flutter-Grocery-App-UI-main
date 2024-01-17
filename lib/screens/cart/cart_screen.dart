@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/models/grocery_item.dart';
-import '../../widgets/chart_item_widget.dart';
+import '../../widgets/chart_item_widget.dart'; // Import the correct widget
 import 'checkout_bottom_sheet.dart';
 
 class CartScreen extends StatefulWidget {
   late final List<GroceryItem> cartItems;
-  final int? selectedQuantity; // Change the type to int?
+  final int? selectedQuantity;
+  final Function(int)? onQuantityChanged; // Make it nullable
 
   CartScreen({
     required this.cartItems,
-    this.selectedQuantity, // Make it nullable
+    this.selectedQuantity,
+    this.onQuantityChanged, // Make it nullable
   });
-
 
   @override
   _CartScreenState createState() => _CartScreenState();
 }
 
 class _CartScreenState extends State<CartScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +39,15 @@ class _CartScreenState extends State<CartScreen> {
                       widget.cartItems.remove(cartItem);
                     });
                   },
+                  onQuantityChanged: (newQuantity) {
+                    setState(() {
+                      cartItem.quantity = newQuantity;
+                    });
+
+                    if (widget.onQuantityChanged != null) {
+                      widget.onQuantityChanged!(newQuantity);
+                    }
+                  },
                 );
               },
             ),
@@ -50,7 +58,6 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-
   Widget getCheckoutButton(BuildContext context) {
     double totalPrice = calculateTotalPrice();
 
@@ -58,8 +65,11 @@ class _CartScreenState extends State<CartScreen> {
       padding: EdgeInsets.all(16),
       child: ElevatedButton(
         onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckoutBottomSheet()));
-          },
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CheckoutBottomSheet()),
+          );
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

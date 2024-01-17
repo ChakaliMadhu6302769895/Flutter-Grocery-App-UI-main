@@ -6,9 +6,14 @@ import 'item_counter_widget.dart';
 class ChartItemWidget extends StatefulWidget {
   final GroceryItem item;
   final VoidCallback onRemove;
+  final void Function(dynamic newQuantity) onQuantityChanged; // Add this line
 
-  ChartItemWidget({Key? key, required this.item, required this.onRemove})
-      : super(key: key);
+  ChartItemWidget({
+    Key? key,
+    required this.item,
+    required this.onRemove,
+    required this.onQuantityChanged, // Add this line
+  }) : super(key: key);
 
   @override
   _ChartItemWidgetState createState() => _ChartItemWidgetState();
@@ -46,8 +51,7 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
                   text: widget.item.description,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  // Replace with your actual color
-                  color: Colors.black,
+                  color: Colors.black, // Replace with your actual color
                 ),
                 SizedBox(
                   height: 12,
@@ -58,10 +62,11 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
                     setState(() {
                       widget.item.quantity = newAmount; // Update item quantity
                     });
+
+                    widget.onQuantityChanged(newAmount); // Invoke the callback
                   },
                   initialAmount: widget.item.quantity, // Pass the initial quantity
-                )
-
+                ),
               ],
             ),
             Column(

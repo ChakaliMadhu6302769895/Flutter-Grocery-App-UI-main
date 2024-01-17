@@ -122,10 +122,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         builder: (context) => CartScreen(
           cartItems: widget.cartItems,
           selectedQuantity: amount,
+          onQuantityChanged: (newQuantity) {
+            setState(() {
+              amount = newQuantity;
+            });
+          },
         ),
       ),
     );
   }
+
 
   Widget getImageHeaderWidget() {
     return Container(

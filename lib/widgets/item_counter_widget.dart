@@ -49,26 +49,23 @@ class _ItemCounterWidgetState extends State<ItemCounterWidget> {
   }
 
   void decrementAmount() {
-    if (amount <= 0) return;
-    setState(() {
-      amount = amount - 1;
-      updateParent();
-    });
+    if (amount > 0) {
+      setState(() {
+        amount = amount - 1;
+        updateParent();
+      });
+    }
   }
 
   void updateParent() {
     if (widget.onAmountChanged != null) {
-      widget.onAmountChanged!(amount);
+      widget.onAmountChanged(amount);
     }
   }
 
   Widget iconWidget(IconData iconData, {Color? iconColor, Function()? onPressed}) {
     return GestureDetector(
-      onTap: () {
-        if (onPressed != null) {
-          onPressed();
-        }
-      },
+      onTap: onPressed,
       child: Container(
         height: 45,
         width: 45,
