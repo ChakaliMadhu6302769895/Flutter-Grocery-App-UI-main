@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/models/grocery_item.dart';
-import '../../widgets/chart_item_widget.dart'; // Import the correct widget
+import '../../widgets/chart_item_widget.dart';
 import 'checkout_bottom_sheet.dart';
 
 class CartScreen extends StatefulWidget {
-  late final List<GroceryItem> cartItems;
+
+  final List<GroceryItem> cartItems;
   final int? selectedQuantity;
-  final Function(int)? onQuantityChanged; // Make it nullable
+  final Function(int)? onQuantityChanged;
+  final Function(List<GroceryItem>)? onItemsUpdated;
+  var onItemRemoved; // Updated to List<GroceryItem>
 
   CartScreen({
     required this.cartItems,
     this.selectedQuantity,
-    this.onQuantityChanged, // Make it nullable
+    required this.onItemRemoved,
+    this.onQuantityChanged,
+    this.onItemsUpdated,
+    // Updated to List<GroceryItem>
   });
 
   @override
@@ -31,21 +37,23 @@ class _CartScreenState extends State<CartScreen> {
             child: ListView.builder(
               itemCount: widget.cartItems.length,
               itemBuilder: (context, index) {
-                final cartItem = widget.cartItems[index]; // Define cartItem here
+                final cartItem = widget.cartItems[index];
                 return ChartItemWidget(
                   item: cartItem,
                   onRemove: () {
                     setState(() {
                       widget.cartItems.remove(cartItem);
                     });
+                    if (widget.onItemsUpdated  != null) {
+                      widget.onItemsUpdated! (widget.cartItems);
+                    }
                   },
                   onQuantityChanged: (newQuantity) {
                     setState(() {
                       cartItem.quantity = newQuantity;
                     });
-
-                    if (widget.onQuantityChanged != null) {
-                      widget.onQuantityChanged!(newQuantity);
+                    if (widget.onItemsUpdated != null) {
+                      widget.onItemsUpdated!(widget.cartItems);
                     }
                   },
                 );

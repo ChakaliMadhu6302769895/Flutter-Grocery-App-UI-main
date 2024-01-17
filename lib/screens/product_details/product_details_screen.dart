@@ -9,10 +9,10 @@ import 'favourite_toggle_icon_widget.dart';
 class ProductDetailsScreen extends StatefulWidget {
   final GroceryItem groceryItem;
   final String? heroSuffix;
-  final List<GroceryItem> cartItems;
+  late final List<GroceryItem> cartItems;
 
-  const ProductDetailsScreen(this.groceryItem,
-      {this.heroSuffix, required this.cartItems});
+  // Remove the 'const' modifier
+  ProductDetailsScreen(this.groceryItem, {this.heroSuffix, required this.cartItems});
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
@@ -20,8 +20,6 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int amount = 1;
-  late GroceryItem selectedProduct;
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +59,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               amount = newAmount;
                             });
                           },
+                          initialAmount: amount,
                         ),
                         Spacer(),
                         Text(
@@ -99,39 +98,45 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
+  void navigateToCartScreen() async {
+    var result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CartScreen(
+          cartItems: widget.cartItems,
+          onItemsUpdated: (updatedItems) {
+            setState(() {
+              widget.cartItems = updatedItems;
+            });
+          },
+          // Provide a suitable value or remove the parameter if it's not needed
+          onItemRemoved: (removedItem) {
+            // Handle onItemRemoved logic if needed
+          },
+        ),
+      ),
+    );
+
+    // Update the cart items in ProductDetailsScreen after returning from CartScreen
+    if (result != null && result is List<GroceryItem>) {
+      setState(() {
+        widget.cartItems = result;
+      });
+    }
+  }
+
   void updateCartItem() {
-    // Check if the selected item is already in the cart
     final existingCartItemIndex = widget.cartItems.indexWhere(
           (item) => item.id == widget.groceryItem.id,
     );
 
     if (existingCartItemIndex != -1) {
-      // Item is already in the cart, update the quantity
       widget.cartItems[existingCartItemIndex].quantity = amount;
     } else {
-      // Add the selected item to the cart with the chosen quantity
       widget.groceryItem.quantity = amount;
       widget.cartItems.add(widget.groceryItem);
     }
   }
-
-  void navigateToCartScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CartScreen(
-          cartItems: widget.cartItems,
-          selectedQuantity: amount,
-          onQuantityChanged: (newQuantity) {
-            setState(() {
-              amount = newQuantity;
-            });
-          },
-        ),
-      ),
-    );
-  }
-
 
   Widget getImageHeaderWidget() {
     return Container(
@@ -145,20 +150,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           bottomRight: Radius.circular(25),
         ),
         gradient: new LinearGradient(
-            colors: [
-              const Color(0xFF3366FF).withOpacity(0.1),
-              const Color(0xFF3366FF).withOpacity(0.09),
-            ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(0.0, 1.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
+          colors: [
+            const Color(0xFF3366FF).withOpacity(0.1),
+            const Color(0xFF3366FF).withOpacity(0.09),
+          ],
+          begin: const FractionalOffset(0.0, 0.0),
+          end: const FractionalOffset(0.0, 1.0),
+          stops: [0.0, 1.0],
+          tileMode: TileMode.clamp,
+        ),
       ),
       child: Hero(
-        tag: "GroceryItem:" +
-            widget.groceryItem.name +
-            "-" +
-            (widget.heroSuffix ?? ""),
+        tag: "GroceryItem:" + widget.groceryItem.name + "-" + (widget.heroSuffix ?? ""),
         child: Image(
           image: AssetImage(widget.groceryItem.imagePath),
         ),
@@ -187,22 +190,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             size: 20,
           )
         ],
-      ),
-    );
-  }
-
-  Widget nutritionWidget() {
-    return Container(
-      padding: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: Color(0xffEBEBEB),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: AppText(
-        text: "100gm",
-        fontWeight: FontWeight.w600,
-        fontSize: 12,
-        color: Color(0xff7C7C7C),
       ),
     );
   }
