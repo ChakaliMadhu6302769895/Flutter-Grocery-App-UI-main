@@ -2,32 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/styles/colors.dart';
 
 class ItemCounterWidget extends StatefulWidget {
-  final Function? onAmountChanged;
+  final Function(int) onAmountChanged;
+  final int initialAmount;
 
-  const ItemCounterWidget({Key? key, this.onAmountChanged}) : super(key: key);
+  ItemCounterWidget({
+    required this.onAmountChanged,
+    this.initialAmount = 1, // Provide a default value
+  });
 
   @override
   _ItemCounterWidgetState createState() => _ItemCounterWidgetState();
 }
 
 class _ItemCounterWidgetState extends State<ItemCounterWidget> {
-  int amount = 1;
+  late int amount;
+
+  @override
+  void initState() {
+    super.initState();
+    amount = widget.initialAmount;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        iconWidget(Icons.remove,
-            iconColor: AppColors.darkGrey, onPressed: decrementAmount),
+        iconWidget(Icons.remove, iconColor: AppColors.darkGrey, onPressed: decrementAmount),
         SizedBox(width: 18),
         Container(
-            width: 30,
-            child: Center(
-                child: getText(
-                    text: amount.toString(), fontSize: 18, isBold: true))),
+          width: 30,
+          child: Center(
+            child: getText(text: amount.toString(), fontSize: 18, isBold: true),
+          ),
+        ),
         SizedBox(width: 18),
-        iconWidget(Icons.add,
-            iconColor: AppColors.primaryColor, onPressed: incrementAmount)
+        iconWidget(Icons.add, iconColor: AppColors.primaryColor, onPressed: incrementAmount),
       ],
     );
   }
@@ -53,7 +62,7 @@ class _ItemCounterWidgetState extends State<ItemCounterWidget> {
     }
   }
 
-  Widget iconWidget(IconData iconData, {Color? iconColor, onPressed}) {
+  Widget iconWidget(IconData iconData, {Color? iconColor, Function()? onPressed}) {
     return GestureDetector(
       onTap: () {
         if (onPressed != null) {
@@ -84,7 +93,7 @@ class _ItemCounterWidgetState extends State<ItemCounterWidget> {
     required String text,
     required double fontSize,
     bool isBold = false,
-    color = Colors.black,
+    Color color = Colors.black,
   }) {
     return Text(
       text,

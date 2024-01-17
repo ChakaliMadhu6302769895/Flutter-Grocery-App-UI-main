@@ -4,9 +4,14 @@ import '../../widgets/chart_item_widget.dart';
 import 'checkout_bottom_sheet.dart';
 
 class CartScreen extends StatefulWidget {
-  final List<GroceryItem> cartItems;
+  late final List<GroceryItem> cartItems;
+  final int? selectedQuantity; // Change the type to int?
 
-  CartScreen({required this.cartItems});
+  CartScreen({
+    required this.cartItems,
+    this.selectedQuantity, // Make it nullable
+  });
+
 
   @override
   _CartScreenState createState() => _CartScreenState();
@@ -44,6 +49,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
+
 
   Widget getCheckoutButton(BuildContext context) {
     double totalPrice = calculateTotalPrice();

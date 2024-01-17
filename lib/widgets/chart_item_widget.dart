@@ -17,7 +17,6 @@ class ChartItemWidget extends StatefulWidget {
 class _ChartItemWidgetState extends State<ChartItemWidget> {
   final double height = 110;
   final double borderRadius = 18;
-  int amount = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -57,17 +56,22 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
                 ItemCounterWidget(
                   onAmountChanged: (newAmount) {
                     setState(() {
-                      amount = newAmount;
+                      widget.item.quantity = newAmount; // Update item quantity
                     });
                   },
+                  initialAmount: widget.item.quantity, // Pass the initial quantity
                 )
+
               ],
             ),
             Column(
               children: [
                 IconButton(
                   icon: Icon(Icons.delete),
-                  onPressed: widget.onRemove,
+                  onPressed: () {
+                    // Call onRemove with the updated item quantity
+                    widget.onRemove();
+                  },
                 ),
                 Spacer(
                   flex: 5,
@@ -98,6 +102,6 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
   }
 
   double getPrice() {
-    return widget.item.price * widget.item.quantity; // Use widget.item.quantity
+    return widget.item.price * widget.item.quantity;
   }
 }
