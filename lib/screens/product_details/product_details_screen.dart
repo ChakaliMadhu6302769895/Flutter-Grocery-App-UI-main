@@ -9,12 +9,9 @@ import 'favourite_toggle_icon_widget.dart';
 class ProductDetailsScreen extends StatefulWidget {
   final GroceryItem groceryItem;
   final String? heroSuffix;
-
   final List<GroceryItem> cartItems;
 
-
-  const ProductDetailsScreen(
-      this.groceryItem,
+  const ProductDetailsScreen(this.groceryItem,
       {this.heroSuffix, required this.cartItems});
 
   @override
@@ -23,6 +20,8 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int amount = 1;
+  late GroceryItem selectedProduct;
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       title: Text(
                         widget.groceryItem.name,
                         style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       subtitle: AppText(
                         text: widget.groceryItem.description,
@@ -83,18 +84,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     AppButton(
                       label: "Add To Cart",
                       onPressed: () {
-                        widget.groceryItem.quantity = amount; // Set the selected quantity
-                        widget.cartItems.add(widget.groceryItem); // Add updated item to cart
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CartScreen(
-                              cartItems: widget.cartItems,
-                              selectedQuantity: amount,
-                            ),
-                          ),
-                        );
+                        updateCartItem();
+                        navigateToCartScreen();
                       },
                     ),
                     Spacer(),
@@ -103,6 +94,34 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void updateCartItem() {
+    // Check if the selected item is already in the cart
+    final existingCartItemIndex = widget.cartItems.indexWhere(
+          (item) => item.id == widget.groceryItem.id,
+    );
+
+    if (existingCartItemIndex != -1) {
+      // Item is already in the cart, update the quantity
+      widget.cartItems[existingCartItemIndex].quantity = amount;
+    } else {
+      // Add the selected item to the cart with the chosen quantity
+      widget.groceryItem.quantity = amount;
+      widget.cartItems.add(widget.groceryItem);
+    }
+  }
+
+  void navigateToCartScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CartScreen(
+          cartItems: widget.cartItems,
+          selectedQuantity: amount,
         ),
       ),
     );
