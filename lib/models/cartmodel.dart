@@ -16,6 +16,11 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearCart() {
+    _cartItems.clear();
+    notifyListeners();
+  }
+
   double calculateTotalPrice() {
     double totalPrice = 0;
     for (var item in _cartItems) {

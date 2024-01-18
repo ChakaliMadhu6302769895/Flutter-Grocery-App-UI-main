@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:grocery_app/widgets/chart_item_widget.dart';
 import '../../models/cartmodel.dart';
 import '../../models/grocery_item.dart';
+import '../order_failed_dialog.dart';
 import 'checkout_bottom_sheet.dart';
 
 class CartScreen extends StatelessWidget {
@@ -35,7 +36,6 @@ class CartScreen extends StatelessWidget {
         builder: (context, cart, child) {
           return Column(
             children: [
-              //getCheckoutButton(context, cart),
               Expanded(
                 child: ListView.builder(
                   itemCount: cart.cartItems.length,
@@ -77,7 +77,11 @@ class CartScreen extends StatelessWidget {
           showModalBottomSheet(
             context: context,
             builder: (BuildContext context) {
-              return CheckoutBottomSheet();
+              return CheckoutBottomSheet(
+                onPlaceOrderClicked: (cart) {
+                  onPlaceOrderClicked(context, cart);
+                },
+              );
             },
           );
         },
@@ -97,4 +101,17 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
+
+  void onPlaceOrderClicked(BuildContext context, CartModel cart) {
+    cart.clearCart();
+    Navigator.pop(context);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return OrderFailedDialogue();
+      },
+    );
+  }
+
+
 }

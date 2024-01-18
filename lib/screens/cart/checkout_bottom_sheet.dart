@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/common_widgets/app_button.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
+import 'package:provider/provider.dart';
+import '../../models/cartmodel.dart';
 import '../order_failed_dialog.dart';
 
 class CheckoutBottomSheet extends StatefulWidget {
+
+  final Function(CartModel) onPlaceOrderClicked;
+
+  CheckoutBottomSheet({required this.onPlaceOrderClicked});
+
   @override
   _CheckoutBottomSheetState createState() => _CheckoutBottomSheetState();
 }
@@ -71,7 +78,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                 vertical: 20,
               ),
               onPressed: () {
-                onPlaceOrderClicked();
+                widget.onPlaceOrderClicked(Provider.of<CartModel>(context, listen: false));
               },
             ),
           ),
@@ -101,7 +108,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
             TextSpan(
               text: " Terms",
               style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
             TextSpan(text: " And"),
             TextSpan(
@@ -133,11 +140,11 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
           trailingText == null
               ? (trailingWidget ?? Container())
               : AppText(
-                  text: trailingText,
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                ),
+            text: trailingText,
+            fontSize: 16,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
           SizedBox(
             width: 20,
           ),
@@ -150,12 +157,15 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
     );
   }
 
-  void onPlaceOrderClicked() {
+  void onPlaceOrderClicked(CartModel cart) {
+    cart.clearCart(); // This will clear all items from the cart
     Navigator.pop(context);
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return OrderFailedDialogue();
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return OrderFailedDialogue();
+      },
+    );
   }
+
 }
