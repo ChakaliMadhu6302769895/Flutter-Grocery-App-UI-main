@@ -20,8 +20,28 @@ List<GroceryItem> cartItems = []; // Create a list of GroceryItem objects
 List<NavigatorItem> navigatorItems = [
   NavigatorItem("Shop", "assets/icons/shop_icon.svg", 0, HomeScreen()),
   NavigatorItem("Explore", "assets/icons/explore_icon.svg", 1, ExploreScreen()),
-  NavigatorItem("Cart", "assets/icons/cart_icon.svg", 2, CartScreen(cartItems: cartItems, onItemRemoved: (GroceryItem ) {  },)),
   NavigatorItem(
-      "Favourite", "assets/icons/favourite_icon.svg", 3, FavouriteScreen()),
+    "Cart",
+    "assets/icons/cart_icon.svg",
+    2,
+    CartScreen(
+      cartItems: cartItems,
+      onItemRemoved: (GroceryItem item) {
+        // Placeholder logic for item removal
+      },
+      onItemsUpdated: (List<GroceryItem> updatedItems) {
+        // Placeholder logic for updating items
+      },
+    ),
+  ),
+  NavigatorItem(
+    "Favourite",
+    "assets/icons/favourite_icon.svg",
+    3,
+    FavouriteScreen(),
+  ),
   NavigatorItem("Account", "assets/icons/account_icon.svg", 4, AccountScreen()),
 ];
+
+
+

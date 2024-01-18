@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/models/cartmodel.dart';
 import 'package:grocery_app/screens/splash_screen.dart';
 import 'package:grocery_app/styles/theme.dart';
-
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CartModel(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

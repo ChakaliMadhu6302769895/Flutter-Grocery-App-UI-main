@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/models/grocery_item.dart';
+import 'package:provider/provider.dart';
 import 'package:grocery_app/widgets/chart_item_widget.dart';
+import '../../models/cartmodel.dart';
+import '../../models/grocery_item.dart';
 import 'checkout_bottom_sheet.dart';
 
-class CartScreen extends StatefulWidget {
+class CartScreen extends StatelessWidget {
+
   final List<GroceryItem> cartItems;
-  final int? selectedQuantity;
-  final Function(int)? onQuantityChanged;
-  final Function(List<GroceryItem>)? onItemsUpdated;
-  final Function(GroceryItem)? onItemRemoved;
+  final Function(GroceryItem) onItemRemoved;
+  final Function(List<GroceryItem>) onItemsUpdated;
 
   CartScreen({
     required this.cartItems,
-    this.selectedQuantity,
     required this.onItemRemoved,
-    this.onQuantityChanged,
-    this.onItemsUpdated,
+    required this.onItemsUpdated,
   });
 
-  @override
-  _CartScreenState createState() => _CartScreenState();
-}
 
-class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,53 +31,48 @@ class _CartScreenState extends State<CartScreen> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.cartItems.length,
-              itemBuilder: (context, index) {
-                final cartItem = widget.cartItems[index];
-                return Column(
-                  children: [
-                    ChartItemWidget(
-                      item: cartItem,
-                      onRemove: () {
-                        setState(() {
-                          widget.cartItems.remove(cartItem);
-                        });
-                        if (widget.onItemsUpdated != null) {
-                          widget.onItemsUpdated!(widget.cartItems);
-                        }
-                      },
-                      onQuantityChanged: (newQuantity) {
-                        setState(() {
-                          cartItem.quantity = newQuantity;
-                        });
-                        if (widget.onItemsUpdated != null) {
-                          widget.onItemsUpdated!(widget.cartItems);
-                        }
-                      },
-                    ),
-                    Divider(), // Divider after each item
-                  ],
-                );
-              },
-            ),
-          ),
-          getCheckoutButton(context),
-        ],
+      body: Consumer<CartModel>(
+        builder: (context, cart, child) {
+          return Column(
+            children: [
+              //getCheckoutButton(context, cart),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: cart.cartItems.length,
+                  itemBuilder: (context, index) {
+                    final cartItem = cart.cartItems[index];
+                    return Column(
+                      children: [
+                        ChartItemWidget(
+                          item: cartItem,
+                          onRemove: () {
+                            cart.removeFromCart(cartItem);
+                          },
+                          onQuantityChanged: (newQuantity) {
+                            // Placeholder or empty callback
+                          },
+                        ),
+                        Divider(), // Divider after each item
+                      ],
+                    );
+                  },
+                ),
+              ),
+              getCheckoutButton(context, cart),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget getCheckoutButton(BuildContext context) {
-    double totalPrice = calculateTotalPrice();
+  Widget getCheckoutButton(BuildContext context, CartModel cart) {
+    double totalPrice = cart.calculateTotalPrice();
 
     return Container(
       padding: EdgeInsets.all(15),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(primary: Colors.green[400] ,fixedSize: Size(400, 50)),
+        style: ElevatedButton.styleFrom(primary: Colors.green[400], fixedSize: Size(400, 50)),
         onPressed: () {
           showModalBottomSheet(
             context: context,
@@ -94,21 +84,17 @@ class _CartScreenState extends State<CartScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Go To Checkout" ,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold , color: Colors.white),
+            Text(
+              "Go To Checkout",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
-            Text("\Rs $totalPrice" , style: TextStyle(color: Colors.white , fontWeight: FontWeight.bold , fontSize: 18),),
+            Text(
+              "\Rs $totalPrice",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ],
         ),
       ),
     );
-  }
-
-  double calculateTotalPrice() {
-    double totalPrice = 0;
-    for (var item in widget.cartItems) {
-      totalPrice += item.price * item.quantity;
-    }
-    return totalPrice;
   }
 }

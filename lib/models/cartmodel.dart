@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/models/grocery_item.dart';
 
-class CartProvider extends ChangeNotifier {
+class CartModel extends ChangeNotifier {
   List<GroceryItem> _cartItems = [];
 
   List<GroceryItem> get cartItems => _cartItems;
@@ -16,11 +16,11 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  double calculateTotalAmount() {
-    double totalAmount = 0.0;
+  double calculateTotalPrice() {
+    double totalPrice = 0;
     for (var item in _cartItems) {
-      totalAmount += item.price;
+      totalPrice += item.price * item.quantity;
     }
-    return totalAmount;
+    return totalPrice;
   }
 }

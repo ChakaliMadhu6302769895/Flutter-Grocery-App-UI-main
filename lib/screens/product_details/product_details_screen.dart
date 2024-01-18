@@ -4,18 +4,20 @@ import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/models/grocery_item.dart';
 import 'package:grocery_app/screens/cart/cart_screen.dart';
 import 'package:grocery_app/widgets/item_counter_widget.dart';
+import 'package:provider/provider.dart';
+import '../../models/cartmodel.dart';
 import 'favourite_toggle_icon_widget.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final GroceryItem groceryItem;
   final String? heroSuffix;
-  late final List<GroceryItem> cartItems;
+  final List<GroceryItem> cartItems;
   final Function(List<GroceryItem>) onItemsUpdated;
 
   ProductDetailsScreen({
     required this.groceryItem,
     this.heroSuffix,
-    this.cartItems = const [],
+    required this.cartItems,
     required this.onItemsUpdated,
   });
 
@@ -111,11 +113,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         builder: (context) => CartScreen(
           cartItems: widget.cartItems,
           onItemsUpdated: (updatedItems) {
-            setState(() {
-              widget.cartItems = updatedItems;
-            });
+            widget.onItemsUpdated(updatedItems);
           },
-          // Provide a suitable value or remove the parameter if it's not needed
+          // Add a placeholder for onItemRemoved
           onItemRemoved: (removedItem) {
             // Handle onItemRemoved logic if needed
           },
@@ -125,9 +125,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     // Update the cart items in ProductDetailsScreen after returning from CartScreen
     if (result != null && result is List<GroceryItem>) {
-      setState(() {
-        widget.cartItems = result;
-      });
+      widget.onItemsUpdated(result);
     }
   }
 
@@ -140,9 +138,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       widget.cartItems[existingCartItemIndex].quantity = amount;
     } else {
       widget.groceryItem.quantity = amount;
-      widget.cartItems.add(widget.groceryItem);
+      // Use the CartModel to add the item to the cart
+      Provider.of<CartModel>(context, listen: false).addToCart(widget.groceryItem);
     }
   }
+
 
   Widget getImageHeaderWidget() {
     return Container(
