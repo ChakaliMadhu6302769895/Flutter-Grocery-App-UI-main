@@ -64,14 +64,15 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
                   Spacer(),
                   ItemCounterWidget(
                     onAmountChanged: (newAmount) {
-                      setState(() {
-                        widget.item.quantity = newAmount;
-                      });
+                      // Update the quantity in the item
+                      widget.item.quantity = newAmount;
 
+                      // Notify the parent (CartScreen) about the quantity change
                       widget.onQuantityChanged(newAmount);
                     },
                     initialAmount: widget.item.quantity,
                   ),
+
                 ],
               ),
             ),

@@ -28,4 +28,5 @@ class CartModel extends ChangeNotifier {
     }
     return totalPrice;
   }
+
 }
