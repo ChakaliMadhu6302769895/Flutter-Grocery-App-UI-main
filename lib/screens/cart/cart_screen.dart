@@ -49,7 +49,6 @@ class CartScreen extends StatelessWidget {
                             cart.removeFromCart(cartItem);
                           },
                           onQuantityChanged: (newQuantity) {
-                            // Placeholder or empty callback
                           },
                         ),
                         Divider(), // Divider after each item
@@ -72,7 +71,7 @@ class CartScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(primary: Colors.green[400], fixedSize: Size(400, 50)),
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.green[400], fixedSize: Size(400, 50)),
         onPressed: () {
           showModalBottomSheet(
             context: context,

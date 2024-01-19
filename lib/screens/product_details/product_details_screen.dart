@@ -56,7 +56,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         fontWeight: FontWeight.w600,
                         color: Color(0xff7C7C7C),
                       ),
-                      trailing: FavoriteToggleIcon(),
+                      trailing: FavoriteToggleIcon(
+                        onFavoriteChanged: (isFavorite) {
+                          updateFavoriteStatus(isFavorite);
+                        },
+                      ),
                     ),
                     Spacer(),
                     Row(
@@ -140,6 +144,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       widget.groceryItem.quantity = amount;
       // Use the CartModel to add the item to the cart
       Provider.of<CartModel>(context, listen: false).addToCart(widget.groceryItem);
+    }
+  }
+
+
+  void updateFavoriteStatus(bool isFavorite) {
+    // Implement the logic to update the list of favorite items
+    // You can use a Provider or any other state management solution here
+    // For simplicity, let's assume there's a method addToFavorites in CartModel
+    if (isFavorite) {
+      Provider.of<CartModel>(context, listen: false).addToFavorites(widget.groceryItem);
+    } else {
+      Provider.of<CartModel>(context, listen: false).removeFromFavorites(widget.groceryItem);
     }
   }
 

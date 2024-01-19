@@ -3,8 +3,10 @@ import 'package:grocery_app/models/grocery_item.dart';
 
 class CartModel extends ChangeNotifier {
   List<GroceryItem> _cartItems = [];
+  List<GroceryItem> _favoriteItems = [];
 
   List<GroceryItem> get cartItems => _cartItems;
+  List<GroceryItem> get favoriteItems => _favoriteItems;
 
   void addToCart(GroceryItem item) {
     _cartItems.add(item);
@@ -13,6 +15,16 @@ class CartModel extends ChangeNotifier {
 
   void removeFromCart(GroceryItem item) {
     _cartItems.remove(item);
+    notifyListeners();
+  }
+
+  void addToFavorites(GroceryItem item) {
+    _favoriteItems.add(item);
+    notifyListeners();
+  }
+
+  void removeFromFavorites(GroceryItem item) {
+    _favoriteItems.remove(item);
     notifyListeners();
   }
 
@@ -28,5 +40,4 @@ class CartModel extends ChangeNotifier {
     }
     return totalPrice;
   }
-
 }
