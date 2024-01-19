@@ -3,16 +3,19 @@ import 'package:provider/provider.dart';
 
 import '../common_widgets/app_text.dart';
 import '../models/cartmodel.dart';
+import '../models/grocery_item.dart';
 
 class FavouriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green, // Set your desired green color
+        backgroundColor: Colors.green,
         title: AppText(
           text: "Favorite Items",
           fontWeight: FontWeight.bold,
+          fontSize: 20,
+          color: Colors.black87,
         ),
       ),
       body: Consumer<CartModel>(
@@ -31,9 +34,52 @@ class FavouriteScreen extends StatelessWidget {
             return ListView.builder(
               itemCount: cartModel.favoriteItems.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(cartModel.favoriteItems[index].name),
-                  // Add other UI elements as needed
+                final item = cartModel.favoriteItems[index];
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  ),
+                  margin: EdgeInsets.all(10),
+                  child: ListTile(
+                    title: Text(
+                      item.name,
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item.description),
+                      ],
+                    ),
+                    leading: Image.asset(
+                      item.imagePath,
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.favorite,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            // Handle favorite icon pressed
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.black87,
+                          ),
+                          onPressed: () {
+                            // Handle remove button pressed
+                            removeItem(context, item);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
             );
@@ -41,5 +87,10 @@ class FavouriteScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void removeItem(BuildContext context, GroceryItem item) {
+    // Implement the logic to remove the item from the favorite list
+    Provider.of<CartModel>(context, listen: false).removeFromFavorites(item);
   }
 }
