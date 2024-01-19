@@ -9,6 +9,10 @@ class CartModel extends ChangeNotifier {
   List<GroceryItem> get cartItems => _cartItems;
   List<GroceryItem> get favoriteItems => _favoriteItems;
 
+  bool isFavorite(GroceryItem item) {
+    return _favoriteItems.contains(item);
+  }
+
   void addToCart(GroceryItem item) {
     _cartItems.add(item);
     notifyListeners();

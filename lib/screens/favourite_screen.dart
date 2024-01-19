@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../common_widgets/app_text.dart';
 import '../models/cartmodel.dart';
 import '../models/grocery_item.dart';

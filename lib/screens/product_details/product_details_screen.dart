@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:grocery_app/common_widgets/app_button.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/models/grocery_item.dart';
 import 'package:grocery_app/screens/cart/cart_screen.dart';
 import 'package:grocery_app/widgets/item_counter_widget.dart';
-import 'package:provider/provider.dart';
 import '../../models/cartmodel.dart';
 import 'favourite_toggle_icon_widget.dart';
 
@@ -31,6 +31,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Check if the current item is a favorite
+    bool isFavorite = Provider.of<CartModel>(context).isFavorite(widget.groceryItem);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -57,6 +60,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         color: Color(0xff7C7C7C),
                       ),
                       trailing: FavoriteToggleIcon(
+                        // Pass the initial favorite status
+                        initialFavorite: isFavorite,
                         onFavoriteChanged: (isFavorite) {
                           updateFavoriteStatus(isFavorite);
                         },
@@ -147,7 +152,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
 
-
   void updateFavoriteStatus(bool isFavorite) {
     // Implement the logic to update the list of favorite items
     // You can use a Provider or any other state management solution here
@@ -158,7 +162,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       Provider.of<CartModel>(context, listen: false).removeFromFavorites(widget.groceryItem);
     }
   }
-
 
   Widget getImageHeaderWidget() {
     return Container(
