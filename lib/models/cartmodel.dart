@@ -4,6 +4,7 @@ import 'package:grocery_app/models/grocery_item.dart';
 class CartModel extends ChangeNotifier {
   List<GroceryItem> _cartItems = [];
   List<GroceryItem> _favoriteItems = [];
+  List<GroceryItem> _allItems = [];
 
   List<GroceryItem> get cartItems => _cartItems;
   List<GroceryItem> get favoriteItems => _favoriteItems;
@@ -30,6 +31,11 @@ class CartModel extends ChangeNotifier {
 
   void clearCart() {
     _cartItems.clear();
+    notifyListeners();
+  }
+
+  void loadFavoriteItems(List<String> favoriteItemIds) {
+    _favoriteItems = _allItems.where((item) => favoriteItemIds.contains(item.id)).toList();
     notifyListeners();
   }
 
