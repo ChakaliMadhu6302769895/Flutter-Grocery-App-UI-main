@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grocery_app/models/grocery_item.dart';
 import 'package:grocery_app/screens/product_details/product_details_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grocery_app/widgets/grocery_item_card_widget.dart';
 import 'package:grocery_app/widgets/search_bar_widget.dart';
-import 'grocery_featured_Item_widget.dart';
+import '../../models/category_item.dart';
+import '../../widgets/category_item_card_widget.dart';
+import '../category_items_screen.dart';
+import '../explore_screen.dart';
 import 'home_banner_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -31,61 +34,47 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  padded(SearchBarWidget()),
+                  padded(SearchBarWidget(onSearch: (query) {
+                    print('Search query: $query');
+                  },)),
                   SizedBox(
                     height: 25,
                   ),
                   padded(HomeBanner()),
-                  SizedBox(
-                    height: 25,
+                  padded(subTitle("Groceries")),
+                  Container(
+                    height: 105,
+                    child:ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: categoryItemsDemo.asMap().entries.map<Widget>((e) {
+                        int index = e.key;
+                        CategoryItem categoryItem = e.value;
+                        return GestureDetector(
+                          onTap: () {
+                            onCategoryItemClicked(context, categoryItem);
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 10), // Adjust the value to set the space between cards
+                            child: Container(
+                              child: CategoryItemCardWidget(
+                                item: categoryItem,
+                                color: gridColors[index % gridColors.length],
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
                   padded(subTitle("Exclusive Order")),
                   getHorizontalItemSlider(exclusiveOffers),
-                  SizedBox(
-                    height: 15,
-                  ),
+                  SizedBox(height: 15),
                   padded(subTitle("Best Selling")),
                   getHorizontalItemSlider(bestSelling),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  padded(subTitle("Groceries")),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 105,
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        GroceryFeaturedCard(
-                          groceryFeaturedItems[0],
-                          color: Color(0xffF8A44C),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        GroceryFeaturedCard(
-                          groceryFeaturedItems[1],
-                          color: AppColors.primaryColor,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  getHorizontalItemSlider(groceries),
-                  SizedBox(
-                    height: 15,
-                  ),
+                  SizedBox(height: 15),
+
+                  SizedBox(height: 15),
+
                 ],
               ),
             ),
@@ -146,6 +135,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+
   Widget subTitle(String text) {
     return Row(
       children: [
@@ -155,9 +145,9 @@ class HomeScreen extends StatelessWidget {
         ),
         Spacer(),
         Text(
-          "See All",
+          "scroll right",
           style: TextStyle(
-              fontSize: 18,
+              fontSize: 14,
               fontWeight: FontWeight.bold,
               color: AppColors.primaryColor),
         ),
@@ -177,10 +167,19 @@ class HomeScreen extends StatelessWidget {
           width: 8,
         ),
         Text(
-          "RR nagar",
+          "RR Nagar, Bangalore",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         )
       ],
     );
   }
+  void onCategoryItemClicked(BuildContext context, CategoryItem categoryItem) {
+    Navigator.of(context).push(new MaterialPageRoute(
+      builder: (BuildContext context) {
+        return CategoryItemsScreen(categoryItem:categoryItem,);
+      },
+    ));
+  }
 }
+
+

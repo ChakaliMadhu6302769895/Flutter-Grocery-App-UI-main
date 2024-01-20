@@ -1,17 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/common_widgets/app_text.dart';
-import 'package:grocery_app/styles/colors.dart';
+import '../../common_widgets/app_text.dart';
+import '../../styles/colors.dart';
+
+
 
 class GroceryFeaturedItem {
+  final  int? id;
   final String name;
   final String imagePath;
 
-  GroceryFeaturedItem(this.name, this.imagePath);
+  GroceryFeaturedItem({this.id, required this.name, required this.imagePath});
+
 }
 
 var groceryFeaturedItems = [
-  GroceryFeaturedItem("Pulses", "assets/images/pulses.png"),
-  GroceryFeaturedItem("Rise", "assets/images/rise.png"),
+  GroceryFeaturedItem(
+    name: "snakes",
+    imagePath: "assets/images/categories_images/fruit.png",
+  ),
+  GroceryFeaturedItem(
+    name: "Rice",
+    imagePath: "assets/images/categories_images/beverages.png",
+  ),
+  GroceryFeaturedItem(
+    name:"staples",
+    imagePath: "assets/images/categories_images/beverages.png",
+  ),
+  GroceryFeaturedItem(
+    name:"Daily Needs",
+    imagePath: "assets/images/categories_images/oil.png",
+  ),
+  GroceryFeaturedItem(
+    name:"Cosmetics",
+    imagePath: "assets/images/categories_images/meat.png",
+  ),
+  GroceryFeaturedItem(
+    name:"Homecare",
+    imagePath: "assets/images/categories_images/bakery.png",
+  ),
+  GroceryFeaturedItem(
+    name: "Body Care",
+    imagePath: "assets/images/categories_images/dairy.png",
+  ),
+  GroceryFeaturedItem(
+    name: "Beverages",
+    imagePath: "assets/images/categories_images/beverages.png",
+  ),
+  GroceryFeaturedItem(
+    name: "Stationary",
+    imagePath: "assets/images/categories_images/beverages.png",
+  ),
 ];
 
 class GroceryFeaturedCard extends StatelessWidget {

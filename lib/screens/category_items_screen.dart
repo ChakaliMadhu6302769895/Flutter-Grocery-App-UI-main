@@ -1,14 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
-import 'package:grocery_app/models/grocery_item.dart';
-import 'package:grocery_app/screens/product_details/product_details_screen.dart';
-import 'package:grocery_app/styles/colors.dart';
+import 'package:grocery_app/models/category_item.dart';
 import 'package:grocery_app/widgets/grocery_item_card_widget.dart';
+import 'package:grocery_app/screens/product_details/product_details_screen.dart';
+
+import '../models/grocery_item.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
+  final CategoryItem categoryItem;
+
+  CategoryItemsScreen({required this.categoryItem, });
+
   @override
   Widget build(BuildContext context) {
+    List<GroceryItem> categoryProducts;
+
+    if (categoryItem.name == "Tea,coffe\& more") {
+      categoryProducts =tea;
+    }  else if (categoryItem.name == "Snacks") {
+      categoryProducts =biscuits;
+    }else if (categoryItem.name == "Rice") {
+      categoryProducts = Rice;
+    } else if (categoryItem.name ==  "Atta\& Dals") {
+      categoryProducts =  Flour;
+    } else if (categoryItem.name =="Cooking Oil") {
+      categoryProducts = cookingoils;
+    } else if (categoryItem.name ==  "masala") {
+      categoryProducts =masala;
+    } else if (categoryItem.name == "Dry fruits") {
+      categoryProducts =Dryfruits;
+    } else if (categoryItem.name == "Bath,Body \& Hair") {
+      categoryProducts = soapshampoo;
+    } else if (categoryItem.name =="Beverages") {
+      categoryProducts = beverages;
+    } else if (categoryItem.name == "Cleaning Essentials") {
+      categoryProducts = cleaningEssentials;
+    } else {
+      categoryProducts = [];
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -32,7 +63,7 @@ class CategoryItemsScreen extends StatelessWidget {
             horizontal: 25,
           ),
           child: AppText(
-            text: "Beverages",
+            text: categoryItem.name,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -41,7 +72,7 @@ class CategoryItemsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: StaggeredGrid.count(
           crossAxisCount: 2,
-          children: beverages.asMap().entries.map<Widget>((e) {
+          children: categoryProducts.asMap().entries.map<Widget>((e) {
             GroceryItem groceryItem = e.value;
             return GestureDetector(
               onTap: () {

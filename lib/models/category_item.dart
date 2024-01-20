@@ -8,27 +8,43 @@ class CategoryItem {
 
 var categoryItemsDemo = [
   CategoryItem(
-    name: "Fresh Fruits & Vegetables",
-    imagePath: "assets/images/categories_images/fruit.png",
+    name: "Snacks",
+    imagePath: "assets/personal care.jpg",
+  ),
+  CategoryItem(
+    name: "Tea, Coffee & More",
+    imagePath: "assets/explore/tea.png",
+  ),
+  CategoryItem(
+    name: "Rice",
+    imagePath: "assets/images/rise.png",
+  ),
+  CategoryItem(
+    name: "Atta & Dals",
+    imagePath: "assets/attaanddhals/pulses.png",
   ),
   CategoryItem(
     name: "Cooking Oil",
-    imagePath: "assets/images/categories_images/oil.png",
+    imagePath: "assets/explore/freedom_oil.png",
   ),
   CategoryItem(
-    name: "Meat & Fish",
+    name: "Masala",
     imagePath: "assets/images/categories_images/meat.png",
   ),
   CategoryItem(
-    name: "Bakery & Snacks",
-    imagePath: "assets/images/categories_images/bakery.png",
+    name: "Dry Fruits",
+    imagePath: "assets/dryfruits/dry_fruits.png",
   ),
   CategoryItem(
-    name: "Dairy & Eggs",
-    imagePath: "assets/images/categories_images/dairy.png",
+    name: "Bath, Body & Hair",
+    imagePath: "assets/bodycare/bath.png",
   ),
   CategoryItem(
     name: "Beverages",
     imagePath: "assets/images/categories_images/beverages.png",
+  ),
+  CategoryItem(
+    name: "Cleaning Essentials",
+    imagePath: "assets/homecare/Harpic_1_Litre__Pack_of_2__Toilet_Cleaner_Liquid.png",
   ),
 ];

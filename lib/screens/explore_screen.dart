@@ -4,7 +4,6 @@ import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/models/category_item.dart';
 import 'package:grocery_app/widgets/category_item_card_widget.dart';
 import 'package:grocery_app/widgets/search_bar_widget.dart';
-
 import 'category_items_screen.dart';
 
 List<Color> gridColors = [
@@ -16,22 +15,25 @@ List<Color> gridColors = [
   Color(0xffB7DFF5),
   Color(0xff836AF6),
   Color(0xffD73B77),
+  Color(0xff53B175),
+  Color(0xffF8A44C),
 ];
 
 class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Column(
-        children: [
-          getHeader(),
-          Expanded(
-            child: getStaggeredGridView(context),
-          ),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            getHeader(),
+            Expanded(
+              child: getStaggeredGridView(context),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   Widget getHeader() {
@@ -52,7 +54,12 @@ class ExploreScreen extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
-          child: SearchBarWidget(),
+          child: SearchBarWidget(
+            onSearch: (query) {
+              // Implement your search logic here based on the query
+              print('Search query: $query');
+            },
+          ),
         ),
       ],
     );
@@ -82,7 +89,7 @@ class ExploreScreen extends StatelessWidget {
           );
         }).toList(),
         mainAxisSpacing: 3.0,
-        crossAxisSpacing: 4.0, // add some space
+        crossAxisSpacing: 4.0,
       ),
     );
   }
@@ -90,7 +97,7 @@ class ExploreScreen extends StatelessWidget {
   void onCategoryItemClicked(BuildContext context, CategoryItem categoryItem) {
     Navigator.of(context).push(new MaterialPageRoute(
       builder: (BuildContext context) {
-        return CategoryItemsScreen();
+        return CategoryItemsScreen(categoryItem: categoryItem);
       },
     ));
   }
