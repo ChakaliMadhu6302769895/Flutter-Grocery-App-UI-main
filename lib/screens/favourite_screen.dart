@@ -11,8 +11,7 @@ class FavouriteScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: AppText(
-          text: "Favorite Items",
-          fontWeight: FontWeight.bold,
+          text: "Favourite Items",
           fontSize: 20,
           color: Colors.black87,
         ),
@@ -23,7 +22,7 @@ class FavouriteScreen extends StatelessWidget {
           if (cartModel.favoriteItems.isEmpty) {
             return Center(
               child: AppText(
-                text: "No Favorite Items",
+                text: "No Favourite Items",
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF7C7C7C),
               ),

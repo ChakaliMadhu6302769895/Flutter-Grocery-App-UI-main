@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grocery_app/styles/colors.dart';
 import 'navigator_item.dart';
@@ -34,41 +35,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
             topLeft: Radius.circular(15),
             topRight: Radius.circular(15),
           ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.white,
+          child: SalomonBottomBar(
             currentIndex: currentIndex,
             onTap: (index) {
               setState(() {
                 currentIndex = index;
               });
             },
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: AppColors.primaryColor,
-            selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-            unselectedItemColor: Colors.black,
-            items: navigatorItems.map((e) {
-              return getNavigationBarItem(
-                  label: e.label, index: e.index, iconPath: e.iconPath);
+            items: navigatorItems.asMap().entries.map((entry) {
+              final int index = entry.key;
+              final NavigatorItem item = entry.value;
+              return SalomonBottomBarItem(
+                icon: SvgPicture.asset(
+                  item.iconPath,
+                  color: currentIndex == index ? AppColors.primaryColor : Colors.black,
+                ),
+                title: Text(item.label),
+                selectedColor: AppColors.primaryColor,
+              );
             }).toList(),
+            backgroundColor: Colors.white,
           ),
         ),
-      ),
-    );
-  }
-
-  BottomNavigationBarItem getNavigationBarItem(
-      {required String label,
-        required String iconPath,
-        required int index}) {
-    Color iconColor =
-        index == currentIndex
-            ? AppColors.primaryColor : Colors.black;
-    return BottomNavigationBarItem(
-      label: label,
-      icon: SvgPicture.asset(
-        iconPath,
-        color: iconColor,
       ),
     );
   }

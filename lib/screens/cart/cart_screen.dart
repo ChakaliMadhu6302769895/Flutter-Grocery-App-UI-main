@@ -7,7 +7,6 @@ import '../order_failed_dialog.dart';
 import 'checkout_bottom_sheet.dart';
 
 class CartScreen extends StatelessWidget {
-
   final List<GroceryItem> cartItems;
   final Function(GroceryItem) onItemRemoved;
   final Function(List<GroceryItem>) onItemsUpdated;
@@ -18,18 +17,14 @@ class CartScreen extends StatelessWidget {
     required this.onItemsUpdated,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Cart"),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            // Navigate back to the home screen
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          },
+        backgroundColor: Colors.green,
+        title: Text(
+          "My Cart",
+          style: TextStyle(fontSize: 20, color: Colors.black87),
         ),
       ),
       body: Consumer<CartModel>(
@@ -72,7 +67,8 @@ class CartScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.green[400], fixedSize: Size(400, 50)),
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green[400], fixedSize: Size(400, 50)),
         onPressed: () {
           showModalBottomSheet(
             context: context,
@@ -90,11 +86,15 @@ class CartScreen extends StatelessWidget {
           children: [
             Text(
               "Go To Checkout",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             Text(
               "\Rs $totalPrice",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
             ),
           ],
         ),
@@ -112,6 +112,4 @@ class CartScreen extends StatelessWidget {
       },
     );
   }
-
-
 }
