@@ -22,12 +22,12 @@ class AccountScreen extends StatelessWidget {
                 leading:
                     SizedBox(width: 65, height: 65, child: getImageHeader()),
                 title: AppText(
-                  text: "Mohammed Hashim",
+                  text: "Chakali Madhu",
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
                 subtitle: AppText(
-                  text: "github.com/mohammedhashim44",
+                  text: "gauthamroyalz12324@gmail.com",
                   color: Color(0xff7C7C7C),
                   fontWeight: FontWeight.normal,
                   fontSize: 16,
@@ -44,7 +44,7 @@ class AccountScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               logoutButton(),
               SizedBox(

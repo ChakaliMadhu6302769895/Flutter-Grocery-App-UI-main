@@ -49,6 +49,7 @@ class CartScreen extends StatelessWidget {
                             cart.removeFromCart(cartItem);
                           },
                           onQuantityChanged: (newQuantity) {
+                            cart.updateCartItemQuantity(cartItem, newQuantity);
                           },
                         ),
                         Divider(), // Divider after each item

@@ -43,6 +43,15 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateCartItemQuantity(GroceryItem item, int newQuantity) {
+    final existingCartItemIndex = _cartItems.indexWhere((cartItem) => cartItem.id == item.id);
+
+    if (existingCartItemIndex != -1) {
+      _cartItems[existingCartItemIndex].quantity = newQuantity;
+      notifyListeners();
+    }
+  }
+
   double calculateTotalPrice() {
     double totalPrice = 0;
     for (var item in _cartItems) {
