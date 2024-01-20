@@ -29,33 +29,53 @@ class CartScreen extends StatelessWidget {
       ),
       body: Consumer<CartModel>(
         builder: (context, cart, child) {
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: cart.cartItems.length,
-                  itemBuilder: (context, index) {
-                    final cartItem = cart.cartItems[index];
-                    return Column(
-                      children: [
-                        ChartItemWidget(
-                          item: cartItem,
-                          onRemove: () {
-                            cart.removeFromCart(cartItem);
-                          },
-                          onQuantityChanged: (newQuantity) {
-                            cart.updateCartItemQuantity(cartItem, newQuantity);
-                          },
-                        ),
-                        Divider(), // Divider after each item
-                      ],
-                    );
-                  },
-                ),
+          if (cart.cartItems.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.shopping_cart,
+                    size: 100,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Your cart is empty",
+                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  ),
+                ],
               ),
-              getCheckoutButton(context, cart),
-            ],
-          );
+            );
+          } else {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: cart.cartItems.length,
+                    itemBuilder: (context, index) {
+                      final cartItem = cart.cartItems[index];
+                      return Column(
+                        children: [
+                          ChartItemWidget(
+                            item: cartItem,
+                            onRemove: () {
+                              cart.removeFromCart(cartItem);
+                            },
+                            onQuantityChanged: (newQuantity) {
+                              cart.updateCartItemQuantity(cartItem, newQuantity);
+                            },
+                          ),
+                          Divider(), // Divider after each item
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                getCheckoutButton(context, cart),
+              ],
+            );
+          }
         },
       ),
     );
@@ -70,16 +90,26 @@ class CartScreen extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green[400], fixedSize: Size(400, 50)),
         onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (BuildContext context) {
-              return CheckoutBottomSheet(
-                onPlaceOrderClicked: (cart) {
-                  onPlaceOrderClicked(context, cart);
-                },
-              );
-            },
-          );
+          if (cart.cartItems.isNotEmpty) {
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return CheckoutBottomSheet(
+                  onPlaceOrderClicked: (cart) {
+                    onPlaceOrderClicked(context, cart);
+                  },
+                );
+              },
+            );
+          } else {
+            // Handle the case where the cart is empty
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Your cart is empty"),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
