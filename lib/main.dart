@@ -8,9 +8,8 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => CartModel()),
-        // Add other providers if needed
-        // ChangeNotifierProvider(create: (context) => AnotherModel()),
+        ChangeNotifierProvider(
+            create: (context) => CartModel()),
       ],
       child: MyApp(),
     ),

@@ -4,7 +4,7 @@ import 'package:grocery_app/models/grocery_item.dart';
 class CartModel extends ChangeNotifier {
   List<GroceryItem> _cartItems = [];
   List<GroceryItem> _favoriteItems = [];
-  List<GroceryItem> _allItems = [];
+  List<GroceryItem> _allItems = []; // Initialize _allItems
 
   List<GroceryItem> get cartItems => _cartItems;
   List<GroceryItem> get favoriteItems => _favoriteItems;
@@ -43,6 +43,11 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Add this method to set the initial list of all items
+  void setAllItems(List<GroceryItem> allItems) {
+    _allItems = allItems;
+  }
+
   void updateCartItemQuantity(GroceryItem item, int newQuantity) {
     final existingCartItemIndex = _cartItems.indexWhere((cartItem) => cartItem.id == item.id);
 
@@ -51,6 +56,7 @@ class CartModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
 
   double calculateTotalPrice() {
     double totalPrice = 0;

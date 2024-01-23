@@ -75,6 +75,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             setState(() {
                               amount = newAmount;
                             });
+
+                            // Call the callback to update the cart items in the parent widget (ProductDetailsScreen)
+                            widget.onItemsUpdated(widget.cartItems);
                           },
                           initialAmount: amount,
                         ),
@@ -139,17 +142,33 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   void updateCartItem() {
-    final existingCartItemIndex = widget.cartItems.indexWhere(
+    final cartModel = Provider.of<CartModel>(context, listen: false);
+
+    final existingCartItemIndex = cartModel.cartItems.indexWhere(
           (item) => item.id == widget.groceryItem.id,
     );
 
     if (existingCartItemIndex != -1) {
-      widget.cartItems[existingCartItemIndex].quantity = amount;
+      // Item already exists in the cart, update the quantity
+      final existingCartItem = cartModel.cartItems[existingCartItemIndex];
+
+      // Update the quantity of the existing item
+      existingCartItem.quantity = amount;
+
+      // Update the displayed quantity
+      widget.groceryItem.displayedQuantity = amount;
+
+      // Notify listeners, assuming CartModel extends ChangeNotifier
+      cartModel.notifyListeners();
     } else {
+      // Item doesn't exist, add it to the cart
       widget.groceryItem.quantity = amount;
-      // Use the CartModel to add the item to the cart
-      Provider.of<CartModel>(context, listen: false).addToCart(widget.groceryItem);
+      widget.groceryItem.displayedQuantity = amount; // Set displayed quantity
+      cartModel.addToCart(widget.groceryItem);
     }
+
+    // Call the callback to update the cart items in the parent widget (CartScreen)
+    widget.onItemsUpdated(cartModel.cartItems);
   }
 
   void updateFavoriteStatus(bool isFavorite) {

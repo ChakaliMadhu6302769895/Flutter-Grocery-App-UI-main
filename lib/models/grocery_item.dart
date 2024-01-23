@@ -7,6 +7,7 @@ class GroceryItem {
   final double price;
   final String imagePath;
   int quantity;
+  int displayedQuantity;
 
   GroceryItem({
     this.id,
@@ -15,6 +16,7 @@ class GroceryItem {
     required this.price,
     required this.imagePath,
     this.quantity = 0,
+    this.displayedQuantity: 0,
   });
 }
 

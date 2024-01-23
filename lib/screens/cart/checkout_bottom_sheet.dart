@@ -5,17 +5,11 @@ import 'package:provider/provider.dart';
 import '../../models/cartmodel.dart';
 import '../order_failed_dialog.dart';
 
-class CheckoutBottomSheet extends StatefulWidget {
+class CheckoutBottomSheet extends StatelessWidget {
+  final Function(BuildContext, CartModel) onPlaceOrderClickedCallback;
 
-  final Function(CartModel) onPlaceOrderClicked;
+  CheckoutBottomSheet({required this.onPlaceOrderClickedCallback});
 
-  CheckoutBottomSheet({required this.onPlaceOrderClicked});
-
-  @override
-  _CheckoutBottomSheetState createState() => _CheckoutBottomSheetState();
-}
-
-class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -78,7 +72,10 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
                 vertical: 20,
               ),
               onPressed: () {
-                widget.onPlaceOrderClicked(Provider.of<CartModel>(context, listen: false));
+                final dynamic platformContext =
+                    Navigator.of(context).context; // Use Navigator's context for web
+
+                onPlaceOrderClickedCallback(context, Provider.of<CartModel>(context, listen: false));
               },
             ),
           ),
@@ -157,7 +154,7 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
     );
   }
 
-  void onPlaceOrderClicked(CartModel cart) {
+  void onPlaceOrderClicked(BuildContext context, CartModel cart) {
     cart.clearCart(); // This will clear all items from the cart
     Navigator.pop(context);
     showDialog(
@@ -167,5 +164,4 @@ class _CheckoutBottomSheetState extends State<CheckoutBottomSheet> {
       },
     );
   }
-
 }

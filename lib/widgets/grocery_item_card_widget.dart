@@ -9,7 +9,6 @@ class GroceryItemCardWidget extends StatelessWidget {
       : super(key: key);
   final GroceryItem item;
   final String? heroSuffix;
-
   final double width = 174;
   final double height = 250;
   final Color borderColor = Color(0xffE2E2E2);

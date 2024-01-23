@@ -28,8 +28,8 @@ class CartScreen extends StatelessWidget {
         ),
       ),
       body: Consumer<CartModel>(
-        builder: (context, cart, child) {
-          if (cart.cartItems.isEmpty) {
+        builder: (context, cartModel, child) {
+          if (cartModel.cartItems.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -52,19 +52,22 @@ class CartScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: cart.cartItems.length,
+                    itemCount: cartModel.cartItems.length,
                     itemBuilder: (context, index) {
-                      final cartItem = cart.cartItems[index];
+                      final cartItem = cartModel.cartItems[index];
                       return Column(
                         children: [
                           ChartItemWidget(
                             item: cartItem,
                             onRemove: () {
-                              cart.removeFromCart(cartItem);
+                              cartModel.removeFromCart(cartItem);
+                              onItemRemoved(cartItem);
                             },
-                            onQuantityChanged: (newQuantity) {
-                              cart.updateCartItemQuantity(cartItem, newQuantity);
-                            },
+                              onQuantityChanged: (newQuantity) {
+                                cartModel.updateCartItemQuantity(cartItem, newQuantity);
+                                onItemsUpdated(cartModel.cartItems);
+                              }
+
                           ),
                           Divider(), // Divider after each item
                         ],
@@ -72,7 +75,7 @@ class CartScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                getCheckoutButton(context, cart),
+                getCheckoutButton(context, cartModel),
               ],
             );
           }
@@ -95,12 +98,13 @@ class CartScreen extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return CheckoutBottomSheet(
-                  onPlaceOrderClicked: (cart) {
+                  onPlaceOrderClickedCallback: (BuildContext context, CartModel cart) {
                     onPlaceOrderClicked(context, cart);
                   },
                 );
               },
             );
+
           } else {
             // Handle the case where the cart is empty
             ScaffoldMessenger.of(context).showSnackBar(
@@ -141,5 +145,10 @@ class CartScreen extends StatelessWidget {
         return OrderFailedDialogue();
       },
     );
+
+    // Call the callback to update the cart items after placing the order
+    onItemsUpdated(cart.cartItems);
   }
+
 }
+

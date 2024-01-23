@@ -7,7 +7,7 @@ import 'item_counter_widget.dart';
 class ChartItemWidget extends StatefulWidget {
   final GroceryItem item;
   final VoidCallback onRemove;
-  final void Function(dynamic newQuantity) onQuantityChanged;
+  final void Function(int newQuantity) onQuantityChanged;
 
   ChartItemWidget({
     Key? key,
@@ -64,8 +64,13 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
                   onAmountChanged: (newAmount) {
                     setState(() {
                       amount = newAmount;
+                      widget.onQuantityChanged(newAmount);
+
+                      // Update the displayed quantity
+                      widget.item.displayedQuantity = newAmount;
                     });
                   },
+                  initialAmount: widget.item.displayedQuantity, // Set initial amount
                 )
               ],
             ),
@@ -82,7 +87,7 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
                 Container(
                   width: 70,
                   child: AppText(
-                    text: "\$${getPrice().toStringAsFixed(2)}",
+                    text: "\Rs ${getPrice().toStringAsFixed(2)}",
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     textAlign: TextAlign.right,
