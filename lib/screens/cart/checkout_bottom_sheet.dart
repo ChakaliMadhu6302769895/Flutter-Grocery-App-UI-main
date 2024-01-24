@@ -3,15 +3,21 @@ import 'package:grocery_app/common_widgets/app_button.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:provider/provider.dart';
 import '../../models/cartmodel.dart';
+import '../order_accepted_screen.dart';
 import '../order_failed_dialog.dart';
 
 class CheckoutBottomSheet extends StatelessWidget {
+  final double totalPrice;
   final Function(BuildContext, CartModel) onPlaceOrderClickedCallback;
 
-  CheckoutBottomSheet({required this.onPlaceOrderClickedCallback});
+  CheckoutBottomSheet({
+    required this.onPlaceOrderClickedCallback,
+    required this.totalPrice});
 
   @override
   Widget build(BuildContext context) {
+    final double totalPrice = Provider.of<CartModel>(context).calculateTotalPrice();
+
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 25,
@@ -43,19 +49,7 @@ class CheckoutBottomSheet extends StatelessWidget {
           SizedBox(
             height: 35,
           ),
-          getDivider(),
-          checkoutRow("Delivery", trailingText: "Select Method"),
-          getDivider(),
-          checkoutRow(
-            "Payment",
-            trailingWidget: Icon(
-              Icons.payment,
-            ),
-          ),
-          getDivider(),
-          checkoutRow("Promo Code", trailingText: "Pick Discount"),
-          getDivider(),
-          checkoutRow("Total Cost", trailingText: "\Rs 13.97"),
+          checkoutRow("Total Cost", trailingText: "\Rs ${totalPrice.toStringAsFixed(2)}"),
           getDivider(),
           SizedBox(
             height: 15,
@@ -72,10 +66,9 @@ class CheckoutBottomSheet extends StatelessWidget {
                 vertical: 20,
               ),
               onPressed: () {
-                final dynamic platformContext =
-                    Navigator.of(context).context; // Use Navigator's context for web
 
-                onPlaceOrderClickedCallback(context, Provider.of<CartModel>(context, listen: false));
+
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderAcceptedScreen()));
               },
             ),
           ),
@@ -145,23 +138,8 @@ class CheckoutBottomSheet extends StatelessWidget {
           SizedBox(
             width: 20,
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 20,
-          )
         ],
       ),
-    );
-  }
-
-  void onPlaceOrderClicked(BuildContext context, CartModel cart) {
-    cart.clearCart(); // This will clear all items from the cart
-    Navigator.pop(context);
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return OrderFailedDialogue();
-      },
     );
   }
 }

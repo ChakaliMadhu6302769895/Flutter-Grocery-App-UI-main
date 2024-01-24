@@ -76,16 +76,22 @@ class _ChartItemWidgetState extends State<ChartItemWidget> {
             ),
             Column(
               children: [
-                Icon(
-                  Icons.close,
-                  color: AppColors.darkGrey,
-                  size: 25,
+                GestureDetector(
+                  onTap: () {
+                    // Call the onRemove callback when the close icon is tapped
+                    widget.onRemove();
+                  },
+                  child: Icon(
+                    Icons.close,
+                    color: AppColors.darkGrey,
+                    size: 25,
+                  ),
                 ),
                 Spacer(
                   flex: 5,
                 ),
                 Container(
-                  width: 70,
+                  width: 100,
                   child: AppText(
                     text: "\Rs ${getPrice().toStringAsFixed(2)}",
                     fontSize: 18,

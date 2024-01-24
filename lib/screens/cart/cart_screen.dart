@@ -98,6 +98,7 @@ class CartScreen extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return CheckoutBottomSheet(
+                  totalPrice: totalPrice,
                   onPlaceOrderClickedCallback: (BuildContext context, CartModel cart) {
                     onPlaceOrderClicked(context, cart);
                   },
@@ -106,7 +107,6 @@ class CartScreen extends StatelessWidget {
             );
 
           } else {
-            // Handle the case where the cart is empty
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text("Your cart is empty"),
@@ -123,13 +123,18 @@ class CartScreen extends StatelessWidget {
               style: TextStyle(
                   fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
-            Text(
-              "\Rs $totalPrice",
-              style: TextStyle(
+            Padding(
+              padding: EdgeInsets.only(right: 10), // Adjust the value as needed
+              child: Text(
+                "\Rs $totalPrice",
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 18),
+                  fontSize: 18,
+                ),
+              ),
             ),
+
           ],
         ),
       ),
@@ -146,7 +151,7 @@ class CartScreen extends StatelessWidget {
       },
     );
 
-    // Call the callback to update the cart items after placing the order
+
     onItemsUpdated(cart.cartItems);
   }
 
